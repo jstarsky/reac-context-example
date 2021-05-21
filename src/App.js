@@ -9,7 +9,7 @@ import Resume from "./pages/Resume";
 import Dashboard from "./pages/Dashboard";
 
 function App() {
-  const [currentTabName, setCurrentTabName] = useState("Dashboard");
+  const [currentTabName, setCurrentTabName] = useState("Welcome");
 
   const setTab = (tabName) => {
     switch (tabName) {
