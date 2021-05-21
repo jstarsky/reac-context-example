@@ -10,12 +10,12 @@ const Dashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (dashboardData) console.log(dashboardData);
-  }, [dashboardData]);
+  // useEffect(() => {
+  //   if (dashboardData) console.log(dashboardData);
+  // }, [dashboardData]);
 
-  const findVersions = () => {
-    const resultsVersion = dashboardData.results.map((i) => i.package.version);
+  const findVersions = (array) => {
+    const resultsVersion = array.results.map((i) => i.package.version);
     const filterVersions = resultsVersion.filter(
       (i, index) => resultsVersion.indexOf(i) === index
     );
@@ -23,7 +23,7 @@ const Dashboard = () => {
   };
 
   const sortVersions = () =>
-    findVersions().sort((a, b) => {
+    findVersions(dashboardData).sort((a, b) => {
       if (a === b) {
         return 0;
       }
@@ -43,9 +43,24 @@ const Dashboard = () => {
     }, 0);
   };
 
-  const totalManteiners = () =>{
-    
-  }
+  const totalManteinersByVersion = () => {
+    const totalanteiners = sortVersions(dashboardData).map((i) => {
+      const packagesByversion = dashboardData.results.filter(
+        (j) => j.package.version === i
+      );
+      const total = packagesByversion.reduce((total, i) => {
+        const maintainersAmount = i.package.maintainers.length;
+        return total + maintainersAmount;
+      }, 0);
+      console.log(total);
+      return { version: i, total };
+      //   const maintainers = packagesByversion.map(
+      //     (i) => i.package.maintainers
+      //   ).length;
+      //   return { version: i, amount: maintainers };
+    });
+    return totalanteiners;
+  };
 
   return (
     <div style={{ paddingLeft: "5rem" }}>
@@ -86,7 +101,7 @@ const Dashboard = () => {
                   </div>
                 ))}
                 <h3>Package versions (foreach || map )</h3>
-                {findVersions().map((i, index) => (
+                {findVersions(dashboardData).map((i, index) => (
                   <div
                     key={index}
                     style={{
@@ -107,7 +122,21 @@ const Dashboard = () => {
                     paddingBottom: "1rem",
                   }}
                 >
-                  <div>{`Amount of Maintainers: ${totalMaintainers(dashboardData)}`}</div>
+                  <div
+                    style={{
+                      paddingBottom: "1rem",
+                    }}
+                  >{`Amount of Maintainers: ${totalMaintainers(
+                    dashboardData
+                  )}`}</div>
+                  {totalManteinersByVersion().map((i, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        paddingBottom: "1rem",
+                      }}
+                    >{`App version ${i.version} with ${i.total} maintainers`}</div>
+                  ))}
                 </div>
               </div>
             </div>
