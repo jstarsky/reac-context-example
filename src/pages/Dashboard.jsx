@@ -10,9 +10,9 @@ const Dashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   if (dashboardData) console.log(dashboardData);
-  // }, [dashboardData]);
+  useEffect(() => {
+    if (dashboardData) console.log(dashboardData);
+  }, [dashboardData]);
 
   const findVersions = (array) => {
     const resultsVersion = array.results.map((i) => i.package.version);
@@ -27,11 +27,12 @@ const Dashboard = () => {
       if (a === b) {
         return 0;
       }
+      
       const aVersion = a.split(".");
       const bVersion = b.split(".");
       for (let i = 0; i < Math.max(aVersion.length, bVersion.length); i++) {
         if (Number(aVersion[i]) >= Number(bVersion[i])) return -1;
-        if (parseInt(aVersion[i]) <= parseInt(bVersion[i])) return 1;
+        if (Number(aVersion[i]) <= Number(bVersion[i])) return 1;
       }
       return 0;
     });
@@ -52,7 +53,7 @@ const Dashboard = () => {
         const maintainersAmount = i.package.maintainers.length;
         return total + maintainersAmount;
       }, 0);
-      console.log(total);
+      // console.log(total);
       return { version: i, total };
       //   const maintainers = packagesByversion.map(
       //     (i) => i.package.maintainers
