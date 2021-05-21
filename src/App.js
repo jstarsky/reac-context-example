@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from "./logo.svg";
+import "./App.css";
+import Navbar from "./pages/Navbar";
+import Welcome from "./pages/Welcome";
+import { useState } from "react";
+import Profile from "./pages/Profile";
+import { TabProvider } from "./Context/TabContext";
+import Resume from "./pages/Resume";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
+  const [currentTabName, setCurrentTabName] = useState("Welcome");
+
+  const setTab = (tabName) => {
+    switch (tabName) {
+      case "Welcome":
+        return <Welcome />;
+      case "Profile":
+        return <Profile />;
+      case "Dashboard":
+        return <Dashboard />;
+      case "Resume":
+        return <Resume />;
+      default:
+        return <div />;
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TabProvider className="App">
+      <Navbar
+        items={["Welcome", "Profile", "Dashboard", "Resume"]}
+        onClickTab={(event) => setCurrentTabName(event)}
+      />
+      {setTab(currentTabName)}
+    </TabProvider>
   );
 }
 
