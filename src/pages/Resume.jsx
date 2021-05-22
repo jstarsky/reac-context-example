@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { TabContext } from "../Context/TabContext";
 
 const Resume = () => {
-  const { profileInput } = useContext(TabContext);
+  const { profileInput, questionsWizard, awnsersWizard } =
+    useContext(TabContext);
 
   return (
     <div style={{ paddingLeft: "5rem" }}>
@@ -17,6 +18,19 @@ const Resume = () => {
         </>
       ) : (
         <h2>You need to visit firts the tab Profile</h2>
+      )}
+      {awnsersWizard && awnsersWizard.length === 0 ? (
+        <h2>You need to awnser the Wizard form</h2>
+      ) : (
+        <>
+          {awnsersWizard &&
+            awnsersWizard.map((i, index) => (
+              <div key={index}>
+                <h2>{`Question ${questionsWizard[index]}`}</h2>
+                <p>{`Response: ${i}`}</p>
+              </div>
+            ))}
+        </>
       )}
     </div>
   );

@@ -7,9 +7,10 @@ import Profile from "./pages/Profile";
 import { TabProvider } from "./Context/TabContext";
 import Resume from "./pages/Resume";
 import Dashboard from "./pages/Dashboard";
+import Wizard from "./pages/Wizard";
 
 function App() {
-  const [currentTabName, setCurrentTabName] = useState("Welcome");
+  const [currentTabName, setCurrentTabName] = useState("Wizard");
 
   const setTab = (tabName) => {
     switch (tabName) {
@@ -19,6 +20,8 @@ function App() {
         return <Profile />;
       case "Dashboard":
         return <Dashboard />;
+      case "Wizard":
+        return <Wizard />;
       case "Resume":
         return <Resume />;
       default:
@@ -29,7 +32,7 @@ function App() {
   return (
     <TabProvider className="App">
       <Navbar
-        items={["Welcome", "Profile", "Dashboard", "Resume"]}
+        items={["Welcome", "Profile", "Dashboard", "Resume", "Wizard"]}
         onClickTab={(event) => setCurrentTabName(event)}
       />
       {setTab(currentTabName)}
